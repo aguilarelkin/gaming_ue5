@@ -32,7 +32,11 @@ public:
 	void Turn(float Value);
 	void LookUp(float Value);
 
-	// 🔥 Variable de sensibilidad del mouse
+	//Variable de sensibilidad del mouse
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (ClampMin = "0.1", ClampMax = "5.0"))
 	float MouseSensitivity = 1.5f; // 🔥 Valor por defecto (ajústalo a tu gusto)
+
+	//Funciones para saltar
+	void StartJump();
+	void StopJump();
 };

@@ -32,12 +32,15 @@ void AMyCharacter::Tick(float DeltaTime)
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	// Bindear los eventos de mover o caminar
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacter::MoveRight);
 	// Bindear los eventos de entrada del mouse
 	PlayerInputComponent->BindAxis("Turn", this, &AMyCharacter::Turn);
 	PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::LookUp);
+	// Bindear el salto
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::StartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 }
 
 void AMyCharacter::MoveForward(float Value)
@@ -64,4 +67,14 @@ void AMyCharacter::Turn(float Value)
 void AMyCharacter::LookUp(float Value)
 {
 	AddControllerPitchInput(Value);
+}
+
+void AMyCharacter::StartJump()
+{
+	Jump();
+}
+
+void AMyCharacter::StopJump()
+{
+	StopJumping();
 }
