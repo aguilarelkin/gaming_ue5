@@ -1,0 +1,52 @@
+# Archivos de configuración del editor
+.idea/
+.vs/
+.vsconfig
+*.code-workspace
+
+# Archivos y carpetas generadas automáticamente por Unreal Engine
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+Plugins/*/Intermediate/
+Plugins/*/Binaries/
+
+# Archivos de configuración de usuario
+Config/DefaultEditor.ini
+Config/DefaultEditorPerProjectUserSettings.ini
+Config/DefaultInput.ini
+Config/DefaultEngine.ini
+Config/DefaultGame.ini
+Config/DefaultEditorLayout.ini
+Config/DefaultEditorSettings.ini
+
+# Archivos de solución y compilación
+*.sln
+*.VC.db
+*.VC.opendb
+
+# Carpeta oculta de control de versiones de UE
+.ue4dependencies
+
+# Backups automáticos
+*.bak
+*.tmp
+*.log
+*.dmp
+
+# Archivos de compilación de C++
+*.pdb
+*.obj
+*.o
+*.idb
+*.ipch
+*.pch
+*.suo
+*.sdf
+*.opensdf
+*.tlog
+*.lastbuildstate
+*.user
+*.sln.docstates
