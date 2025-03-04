@@ -9,5 +9,5 @@ IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, Leyenda, "Leyenda");
 
 ALeyenda::ALeyenda()
 {
-	DefaultPawnClass = AMyCharacter::StaticClass();
+	DefaultPawnClass =  AMyCharacter::StaticClass();
 }

@@ -39,4 +39,20 @@ public:
 	//Funciones para saltar
 	void StartJump();
 	void StopJump();
+	// Funciones para agacharse
+	void StartCrouch();
+	void StopCrouch();
+	// Componente de Skeletal Mesh
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character")
+	USkeletalMeshComponent* MeshComponent;
+
+private:
+	float DefaultCapsuleHalfHeight;
+	// Cámara en tercera persona
+	UPROPERTY(VisibleAnywhere)
+	class USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnywhere)
+	class UCameraComponent* FollowCamera;
 };
+
