@@ -17,24 +17,32 @@ AMyCharacter::AMyCharacter()
 	// Crear el brazo de la cámara (SpringArm) para tercera persona
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 500.0f; // Distancia de la cámara al personaje
+	CameraBoom->TargetArmLength = 210.0f; // Distancia de la cámara al personaje
 	CameraBoom->bUsePawnControlRotation = true;
+
+	// Configuración del SpringArm
+	CameraBoom->bUsePawnControlRotation = true; // El SpringArm debe rotar con el controlador
+	CameraBoom->bInheritPitch = true; // Heredar rotación de pitch (arriba/abajo)
+	CameraBoom->bInheritYaw = true; // Heredar rotación de yaw (izquierda/derecha)
+	CameraBoom->bInheritRoll = false; // No heredar rotación de roll
 
 	// Crear la cámara de seguimiento
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom);
-	FollowCamera->bUsePawnControlRotation = false;
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->bUsePawnControlRotation = false; // La cámara no debe rotar con el controlador
 
-	// Configuración de rotación
-	bUseControllerRotationYaw = false;
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	// Configuración de rotación del personaje
+	bUseControllerRotationYaw = false; // El personaje no debe rotar automáticamente con el controlador
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	// Configuración del movimiento del personaje
+	GetCharacterMovement()->bOrientRotationToMovement = true; // El personaje rota hacia la dirección del movimiento
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 140.0f, 0.0f); // Velocidad de rotación del personaje
 
 
 	//velocidad al caminar
-	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	GetCharacterMovement()->MaxWalkSpeed = 700.f;
 	// Permitir que el personaje use control de rotación basado en el controlador
-	bUseControllerRotationYaw = true;
-	bUseControllerRotationPitch = true;
 	// Guardar la altura original de la cápsula
 	DefaultCapsuleHalfHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
 
@@ -84,10 +92,19 @@ void AMyCharacter::MoveForward(float Value)
 {
 	if (Controller && Value != 0.0f)
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::X);
+		FVector Direction = GetActorForwardVector();
+
+		// Evitar que el personaje rote si está moviéndose hacia atrás
+		if (Value < 0.0f)
+		{
+			GetCharacterMovement()->bOrientRotationToMovement = false;
+		}
+		else
+		{
+			GetCharacterMovement()->bOrientRotationToMovement = true;
+		}
+
 		AddMovementInput(Direction, Value);
-		//AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
 
@@ -95,10 +112,7 @@ void AMyCharacter::MoveRight(float Value)
 {
 	if (Controller && Value != 0.0f)
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Y);
-		AddMovementInput(Direction, Value);
-		//AddMovementInput(GetActorRightVector(), Value);
+		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
 
