@@ -12,5 +12,5 @@ class LEYENDA_API ALeyenda : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	ALeyenda();
+	
 };
