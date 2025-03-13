@@ -30,9 +30,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (ClampMin = "0.1", ClampMax = "5.0"))
 	float MouseSensitivity = 1.5f; // Valor por defecto
 
+	/*
 	// Componente de Skeletal Mesh
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character")
 	USkeletalMeshComponent* MeshComponent;
+	*/
 
 private:
 	float DefaultCapsuleHalfHeight;

@@ -15,16 +15,22 @@ class LEYENDA_API UMyCharacterAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 public:
-	// Variables para las animaciones
+	// Velocidad del personaje
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	float Speed;
+
+	// Indica si el personaje se está moviendo
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	bool bIsMoving;
 
+	// Indica si el personaje está en el aire
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
-	bool bIsJumping;
+	bool bIsInAir;
 
+	// Indica si el personaje está agachado
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	bool bIsCrouching;
 
-	// Actualizar variables cada frame
+	// Función de actualización por frame
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 };

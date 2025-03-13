@@ -35,9 +35,16 @@ AMyCharacter::AMyCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f); // Velocidad de rotación del personaje
 
 	//velocidad al caminar
-	GetCharacterMovement()->MaxWalkSpeed = 900.f;
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	// Guardar la altura original de la cápsula
 	DefaultCapsuleHalfHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
+
+	/*static ConstructorHelpers::FObjectFinder<UAnimBlueprintGeneratedClass> AnimBP(TEXT("/Game/StarterContent/Maniqui/animation/Idle.Idle"));
+	if (AnimBP.Succeeded())
+	{
+		GetMesh()->SetAnimInstanceClass(AnimBP.Object);
+	}*/
+	
 }
 
 // Called when the game starts or when spawned
@@ -124,11 +131,11 @@ void AMyCharacter::StopJump()
 void AMyCharacter::StartCrouch()
 {
 	Crouch();
-	GetCapsuleComponent()->SetCapsuleHalfHeight(DefaultCapsuleHalfHeight * 0.5f);
+	//GetCapsuleComponent()->SetCapsuleHalfHeight(DefaultCapsuleHalfHeight * 0.5f);
 }
 
 void AMyCharacter::StopCrouch()
 {
 	UnCrouch();
-	GetCapsuleComponent()->SetCapsuleHalfHeight(DefaultCapsuleHalfHeight);
+	//GetCapsuleComponent()->SetCapsuleHalfHeight(DefaultCapsuleHalfHeight);
 }
