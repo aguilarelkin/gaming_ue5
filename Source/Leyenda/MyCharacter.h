@@ -60,6 +60,7 @@ private:
 	void StartJump();
 	void StopJump();
 	// Funciones para agacharse
-	void StartCrouch();
-	void StopCrouch();
+	void ToggleCrouch();
+	/*void StartCrouch();
+	void StopCrouch();*/
 };

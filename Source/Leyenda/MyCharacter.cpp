@@ -44,13 +44,15 @@ AMyCharacter::AMyCharacter()
 	{
 		GetMesh()->SetAnimInstanceClass(AnimBP.Object);
 	}*/
-	
+	//Crounch
+	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 }
 
 // Called when the game starts or when spawned
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 }
 
 // Called every frame
@@ -72,8 +74,9 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::StopJump);
 	// Bindear el agachado
-	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMyCharacter::StartCrouch);
-	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AMyCharacter::StopCrouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMyCharacter::ToggleCrouch);
+	/*PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMyCharacter::StartCrouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AMyCharacter::StopCrouch);*/
 }
 
 void AMyCharacter::MoveForward(float Value)
@@ -128,14 +131,25 @@ void AMyCharacter::StopJump()
 	StopJumping();
 }
 
-void AMyCharacter::StartCrouch()
+void AMyCharacter::ToggleCrouch()
+{
+	if (bIsCrouched) // Si ya está agachado, se levanta
+	{
+		UnCrouch();
+	}
+	else // Si no está agachado, se agacha
+	{
+		Crouch();
+	}
+}
+
+/*void AMyCharacter::StartCrouch()
 {
 	Crouch();
-	//GetCapsuleComponent()->SetCapsuleHalfHeight(DefaultCapsuleHalfHeight * 0.5f);
 }
 
 void AMyCharacter::StopCrouch()
 {
 	UnCrouch();
 	//GetCapsuleComponent()->SetCapsuleHalfHeight(DefaultCapsuleHalfHeight);
-}
+}*/

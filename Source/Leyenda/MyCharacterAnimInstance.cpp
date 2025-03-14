@@ -28,4 +28,8 @@ void UMyCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	// Determinar si está agachado
 	bIsCrouching = Character-> bIsCrouched;
+	if (bIsCrouching && Speed < 3.0f)
+	{
+		Speed = 0.0f; // Para asegurar que entre en el estado de Crouched Idle
+	}
 }
