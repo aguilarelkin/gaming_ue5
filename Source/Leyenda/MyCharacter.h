@@ -18,6 +18,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float WalkSpeed = 200.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float RunSpeed = 900.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool bLsRunning = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool bLsCrouchToggled = false;
 
 public:
 	// Called every frame
@@ -25,17 +33,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 	//Variable de sensibilidad del mouse
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (ClampMin = "0.1", ClampMax = "5.0"))
 	float MouseSensitivity = 1.5f; // Valor por defecto
-
-	/*
-	// Componente de Skeletal Mesh
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character")
-	USkeletalMeshComponent* MeshComponent;
-	*/
-
 private:
 	float DefaultCapsuleHalfHeight;
 	// Cámara en tercera persona
@@ -63,4 +64,9 @@ private:
 	void ToggleCrouch();
 	/*void StartCrouch();
 	void StopCrouch();*/
+
+	//funciones para run
+	void StartRunning();
+	void StopRunning();
+	void ToggleRun();
 };

@@ -35,17 +35,10 @@ AMyCharacter::AMyCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f); // Velocidad de rotación del personaje
 
 	//velocidad al caminar
-	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	GetCharacterMovement()->MaxWalkSpeed = 200.f;
 	// Guardar la altura original de la cápsula
 	DefaultCapsuleHalfHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
-
-	/*static ConstructorHelpers::FObjectFinder<UAnimBlueprintGeneratedClass> AnimBP(TEXT("/Game/StarterContent/Maniqui/animation/Idle.Idle"));
-	if (AnimBP.Succeeded())
-	{
-		GetMesh()->SetAnimInstanceClass(AnimBP.Object);
-	}*/
-	//Crounch
-	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+	
 }
 
 // Called when the game starts or when spawned
@@ -77,6 +70,10 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMyCharacter::ToggleCrouch);
 	/*PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMyCharacter::StartCrouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AMyCharacter::StopCrouch);*/
+
+	//Binder run
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AMyCharacter::ToggleRun);
+	//PlayerInputComponent->BindAction("Run", IE_Released, this, &AMyCharacter::StopRunning);
 }
 
 void AMyCharacter::MoveForward(float Value)
@@ -123,6 +120,11 @@ void AMyCharacter::LookUp(float Value)
 
 void AMyCharacter::StartJump()
 {
+	if (bLsCrouchToggled)
+	{
+		bLsCrouchToggled = false;
+		UnCrouch();
+	}
 	Jump();
 }
 
@@ -133,14 +135,33 @@ void AMyCharacter::StopJump()
 
 void AMyCharacter::ToggleCrouch()
 {
-	if (bIsCrouched) // Si ya está agachado, se levanta
-	{
-		UnCrouch();
-	}
-	else // Si no está agachado, se agacha
+	bLsCrouchToggled = !bLsCrouchToggled;
+	if (bLsCrouchToggled) // Si ya está agachado, se levanta
 	{
 		Crouch();
 	}
+	else // Si no está agachado, se agacha
+	{
+		UnCrouch();
+	}
+}
+
+/*void AMyCharacter::StartRunning()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	UE_LOG(LogTemp, Warning, TEXT("Velocidad en Animation BP: start"));
+}
+
+void AMyCharacter::StopRunning()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 200.0f;
+	UE_LOG(LogTemp, Warning, TEXT("Velocidad en Animation BP: stop"));
+}*/
+
+void AMyCharacter::ToggleRun()
+{
+	bLsRunning = !bLsRunning;
+	GetCharacterMovement()->MaxWalkSpeed = bLsRunning ? RunSpeed : WalkSpeed;
 }
 
 /*void AMyCharacter::StartCrouch()

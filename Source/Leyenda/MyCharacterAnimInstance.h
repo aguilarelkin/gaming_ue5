@@ -30,7 +30,8 @@ public:
 	// Indica si el personaje está agachado
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	bool bIsCrouching;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	bool bIsRunning;
 	// Función de actualización por frame
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 };
