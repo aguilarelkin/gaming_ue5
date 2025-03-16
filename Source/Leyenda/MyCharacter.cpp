@@ -38,7 +38,6 @@ AMyCharacter::AMyCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 200.f;
 	// Guardar la altura original de la cápsula
 	DefaultCapsuleHalfHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
-	
 }
 
 // Called when the game starts or when spawned
@@ -135,14 +134,19 @@ void AMyCharacter::StopJump()
 
 void AMyCharacter::ToggleCrouch()
 {
-	bLsCrouchToggled = !bLsCrouchToggled;
-	if (bLsCrouchToggled) // Si ya está agachado, se levanta
+	float CurrentSpeed = GetVelocity().Size();
+	if (CurrentSpeed == 0.0f)
 	{
-		Crouch();
-	}
-	else // Si no está agachado, se agacha
-	{
-		UnCrouch();
+		bLsCrouchToggled = !bLsCrouchToggled;
+
+		if (bLsCrouchToggled)
+		{
+			Crouch();
+		}
+		else
+		{
+			UnCrouch();
+		}
 	}
 }
 
