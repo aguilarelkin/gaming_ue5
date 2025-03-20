@@ -14,21 +14,23 @@ AMyCharacter::AMyCharacter()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	// Configuración de rotación del personaje
+	bUseControllerRotationYaw = false; // El personaje no debe rotar automáticamente con el controlador
+
 	// Crear el brazo de la cámara (SpringArm) para tercera persona
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 500.0f; // Distancia de la cámara al personaje
 	CameraBoom->SocketOffset = FVector(0.0f, 0.0f, 150.0f);
 	CameraBoom->SetRelativeRotation(FRotator(-40.0f, 0.0f, 0.0f));
-	CameraBoom->bUsePawnControlRotation = false;
+	CameraBoom->bUsePawnControlRotation = true; //rotar sin movimiento
 
 	// Crear la cámara de seguimiento
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom);
 	FollowCamera->bUsePawnControlRotation = false;
-
-	// Configuración de rotación del personaje
-	bUseControllerRotationYaw = false; // El personaje no debe rotar automáticamente con el controlador
 
 	// Configuración del movimiento del personaje
 	GetCharacterMovement()->bOrientRotationToMovement = true; // El personaje rota hacia la dirección del movimiento
@@ -45,6 +47,16 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+	AController* PlayerController = GetController();
+	if (PlayerController)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controlador asignado correctamente."));
+		CameraBoom->bUsePawnControlRotation = true;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No hay controlador asignado."));
+	}
 }
 
 // Called every frame
